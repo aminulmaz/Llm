@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BALLB Notes & LLM Notes Hub - Official Repository Under Development</title>
+  
+  <!-- Google Fonts: Academic serif and clean body sans-serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+  
+  <style>
+    /* DESIGN SYSTEM & TOKENS */
+    :root {
+      --primary: #0F2D52;       /* Deep Navy */
+      --secondary: #1E4E8C;     /* Rich Blue */
+      --accent: #C8A951;        /* Academic Gold */
+      --accent-hover: #B5933F;  /* Darker Gold */
+      --bg: #F8F9FA;            /* Off White */
+      --bg-card: #FFFFFF;       /* Pure White */
+      --text: #212529;          /* Dark Slate */
+      --text-muted: #5A6578;    /* Muted Slate */
+      --success: #2D6A4F;       /* Forest Green */
+      --border: #E2E8F0;        /* Subtle Border */
+      --border-dark: #CBD5E1;   /* Defined Border */
+      --font-heading: 'Merriweather', Georgia, serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --shadow-sm: 0 2px 4px rgba(15, 45, 82, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 45, 82, 0.06);
+      --shadow-lg: 0 10px 25px rgba(15, 45, 82, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* GLOBAL RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* TYPOGRAPHY UTILITIES */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    /* CONTAINER */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* HEADER */
+    .site-header {
+      background-color: var(--bg-card);
+      border-bottom: 3px solid var(--primary);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 0;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .logo-subtitle {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-item {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: not-allowed;
+      position: relative;
+      padding: 6px 0;
+      user-select: none;
+    }
+
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    /* Interactive but disabled state styling */
+    .nav-item:hover {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    .nav-badge {
+      font-size: 0.65rem;
+      background-color: #EDEDED;
+      color: #666666;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+      margin-left: 5px;
+      vertical-align: middle;
+      border: 1px solid #D6D6D6;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 70px 0 40px;
+      text-align: center;
+      background: radial-gradient(circle at top, rgba(30, 78, 140, 0.03) 0%, rgba(248, 249, 250, 0) 70%);
+    }
+
+    .badge-container {
+      margin-bottom: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(15, 45, 82, 0.06);
+      border: 1px solid rgba(15, 45, 82, 0.12);
+      padding: 6px 16px;
+      border-radius: 4px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.6; }
+    }
+
+    .badge-text {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      position: relative;
+    }
+
+    .hero-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent);
+      margin: 24px auto 0;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 24px auto 0;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* STATUS CARD */
+    .status-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--primary);
+      border-radius: 6px;
+      box-shadow: var(--shadow-md);
+      padding: 36px;
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, transparent 50%, rgba(200, 169, 81, 0.05) 50%);
+      pointer-events: none;
+    }
+
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .status-title {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-badge {
+      background-color: rgba(45, 106, 79, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(45, 106, 79, 0.2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .progress-container {
+      margin-bottom: 30px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-bg {
+      height: 16px;
+      background-color: #E9ECEF;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 80%;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--primary),
+        var(--primary) 10px,
+        var(--secondary) 10px,
+        var(--secondary) 20px
+      );
+      border-radius: 8px;
+      transition: width 1.5s ease-out;
+      position: relative;
+    }
+
+    .progress-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--accent);
+    }
+
+    .features-list-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .check-icon {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    /* FEATURE PREVIEW GRID */
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background-color: var(--accent);
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-size: 1.05rem;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .preview-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 30px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: transparent;
+      transition: var(--transition);
+    }
+
+    .preview-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-dark);
+    }
+
+    .preview-card:hover::before {
+      background-color: var(--accent);
+    }
+
+    .card-icon-box {
+      width: 48px;
+      height: 48px;
+      background-color: rgba(15, 45, 82, 0.05);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      transition: var(--transition);
+    }
+
+    .preview-card:hover .card-icon-box {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .card-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card-tag {
+      align-self: flex-start;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background-color: rgba(200, 169, 81, 0.1);
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: auto;
+    }
+
+    /* DEVELOPMENT NOTICE - Government Circular Style */
+    .notice-section {
+      background-color: #FFFFFF;
+      border: 2px solid #212529;
+      padding: 48px;
+      margin-bottom: 60px;
+      position: relative;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+    }
+
+    .notice-seal-watermark {
+      position: absolute;
+      right: 48px;
+      top: 48px;
+      opacity: 0.03;
+      pointer-events: none;
+      width: 160px;
+      height: 160px;
+    }
+
+    .notice-header {
+      border-bottom: 2px double #212529;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .notice-dept {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .notice-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-family: monospace;
+      color: var(--text-muted);
+    }
+
+    .notice-body {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .notice-body p {
+      margin-bottom: 16px;
+    }
+
+    .notice-footer-seal {
+      margin-top: 36px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .seal-sign-box {
+      border: 1px dashed var(--accent);
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-align: center;
+      background-color: rgba(200, 169, 81, 0.02);
+    }
+
+    .seal-sign-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .seal-sign-name {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    /* EMAIL NOTIFICATION FORM */
+    .newsletter-section {
+      background-color: var(--primary);
+      color: white;
+      border-radius: 6px;
+      padding: 48px;
+      margin-bottom: 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle at 15% 15%, rgba(30, 78, 140, 0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .newsletter-title {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .newsletter-desc {
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 580px;
+      margin: 0 auto 30px;
+      font-size: 1rem;
+    }
+
+    .newsletter-form {
+      max-width: 540px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 18px 16px 44px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(200, 169, 81, 0.25);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
+
+    .form-btn {
+      background-color: var(--accent);
+      color: var(--primary);
+      border: none;
+      border-radius: 4px;
+      padding: 0 28px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-btn:hover {
+      background-color: var(--accent-hover);
+      color: #FFF;
+    }
+
+    .form-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Button Ripple implementation */
+    .ripple {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple-animation 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .validation-msg {
+      text-align: left;
+      font-size: 0.8rem;
+      color: #FF8A8A;
+      margin-top: 6px;
+      display: none;
+      padding-left: 2px;
+    }
+
+    /* TIMELINE SECTION */
+    .timeline-section {
+      margin-bottom: 80px;
+    }
+
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 31px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 70px;
+      margin-bottom: 36px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: 18px;
+      top: 2px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: white;
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: var(--transition);
+    }
+
+    .timeline-item.completed .timeline-marker {
+      background-color: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+
+    .timeline-item.in-progress .timeline-marker {
+      background-color: white;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .timeline-item.upcoming .timeline-marker {
+      background-color: white;
+      border-color: var(--border-dark);
+      color: var(--text-muted);
+    }
+
+    .timeline-content {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item.completed .timeline-badge {
+      background-color: rgba(45, 106, 79, 0.1);
+      color: var(--success);
+    }
+
+    .timeline-item.in-progress .timeline-badge {
+      background-color: rgba(200, 169, 81, 0.1);
+      color: var(--accent);
+    }
+
+    .timeline-item.upcoming .timeline-badge {
+      background-color: #EDEDED;
+      color: var(--text-muted);
+    }
+
+    .timeline-item-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background-color: var(--primary);
+      color: white;
+      padding: 60px 0 30px;
+      margin-top: auto;
+      border-top: 4px solid var(--accent);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-about {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: #FFFFFF;
+    }
+
+    .footer-desc {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-col-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-link-item {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.75);
+      cursor: not-allowed;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* TOAST SYSTEM */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .toast {
+      background-color: #FFFFFF;
+      color: var(--text);
+      border-left: 4px solid var(--success);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 320px;
+      max-width: 450px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    .toast-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .toast-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--primary);
+    }
+
+    .toast-msg {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* RESPONSIVE STYLING */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.3rem;
+      }
+      .notice-section {
+        padding: 36px;
+      }
+      .notice-seal-watermark {
+        width: 100px;
+        height: 100px;
+        right: 24px;
+        top: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        gap: 18px;
+      }
+      .nav-item {
+        white-space: nowrap;
+      }
+      .hero-title {
+        font-size: 1.9rem;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      .status-card {
+        padding: 24px;
+      }
+      .newsletter-form {
+        flex-direction: column;
+      }
+      .form-btn {
+        justify-content: center;
+        padding: 16px;
+      }
+      .notice-meta {
+        flex-direction: column;
+        gap: 4px;
+      }
+      .notice-footer-seal {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.6rem;
+      }
+      .preview-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-container::before {
+        left: 15px;
+      }
+      .timeline-item {
+        padding-left: 45px;
+      }
+      .timeline-marker {
+        left: 2px;
+      }
+      .toast {
+        left: 16px;
+        right: 16px;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HEADER -->
+  <header class="site-header" role="banner">
+    <div class="container header-container">
+      <div class="logo-area">
+        <!-- Scale of Justice & Book combined SVG icon -->
+        <svg class="logo-icon" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Main Pillar / Support -->
+          <line x1="12" y1="3" x2="12" y2="17" />
+          <line x1="8" y1="17" x2="16" y2="17" />
+          
+          <!-- Beam -->
+          <line x1="5" y1="6" x2="19" y2="6" />
+          
+          <!-- Left scale pan and chains -->
+          <path d="M5 6l-2 5h4l-2 -5" />
+          <path d="M3 11a2 2 0 0 0 4 0" />
+          
+          <!-- Right scale pan and chains -->
+          <path d="M19 6l-2 5h4l-2 -5" />
+          <path d="M17 11a2 2 0 0 0 4 0" />
+          
+          <!-- Book base representation at the bottom -->
+          <path d="M4 19h16" stroke-width="2" />
+          <path d="M4 21h16" />
+        </svg>
+        <div class="logo-text">
+          <span class="logo-title">BALLB & LLM Hub</span>
+          <span class="logo-subtitle">Academic Resource Portal</span>
+        </div>
+      </div>
+      
+      <nav class="nav-links" aria-label="Main Navigation">
+        <span class="nav-item" aria-disabled="true">Home</span>
+        <span class="nav-item" aria-disabled="true">Notes</span>
+        <span class="nav-item" aria-disabled="true">PDF Library</span>
+        <span class="nav-item" aria-disabled="true">Resources <span class="nav-badge" aria-label="Unavailable">Lock</span></span>
+        <span class="nav-item" aria-disabled="true">About</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    
+    <!-- 2. HERO SECTION -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="badge-container">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Official Platform Under Development</span>
+      </div>
+      <h1 class="hero-title" id="hero-title">Building a Better Legal Learning Repository</h1>
+      <p class="hero-subtitle">
+        A curated platform delivering structured BALLB Study Notes, LLM Research Collections, Core PDF Resources, Academic Reference Digests, and Legal Study Frameworks.
+      </p>
+    </section>
+
+    <!-- 3. STATUS CARD -->
+    <section class="status-card" aria-labelledby="status-title-id">
+      <div class="status-header">
+        <h2 class="status-title" id="status-title-id">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          System Deployment Metrics
+        </h2>
+        <span class="status-badge">Development Progress: Active</span>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span>Database Architecture & UI Core</span>
+          <span aria-label="80 Percent Complete">80%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="features-list-wrapper">
+        <h3 class="features-list-title">Target Features Under Implementation</h3>
+        <div class="features-grid">
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>BALLB Notes Repository</span>
+          </div>
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>LLM Notes Collection</span>
+          </div>
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>PDF Resource Library</span>
+          </div>
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Smart Catalog Search</span>
+          </div>
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Community Peer Sharing</span>
+          </div>
+          <div class="feature-check-item">
+            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Academic Categorization</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FEATURE PREVIEW GRID -->
+    <section class="preview-section" aria-labelledby="preview-section-title">
+      <div class="section-header">
+        <h2 class="section-title" id="preview-section-title">Platform Architecture Preview</h2>
+        <p class="section-desc">Examine the foundational pillars of our upcoming academic repository.</p>
+      </div>
+
+      <div class="preview-grid">
+        <!-- Card 1 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3 class="card-title">BALLB Notes</h3>
+          <p class="card-desc">Comprehensive reference summaries, syllabus coverage, and analytical breakdowns of undergraduate legal modules.</p>
+          <span class="card-tag">Undergraduate</span>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="card-title">LLM Notes</h3>
+          <p class="card-desc">Advanced postgraduate modules focusing on corporate, constitutional, human rights, and specialized legal jurisprudence.</p>
+          <span class="card-tag">Postgraduate</span>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3 class="card-title">PDF Library</h3>
+          <p class="card-desc">High-quality, legal-size academic literature, downloadable frameworks, index guidelines, and reading resources.</p>
+          <span class="card-tag">Resource Drive</span>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3 class="card-title">Legal Resources</h3>
+          <p class="card-desc">Direct citations, legal dictionaries, structured research templates, and simplified case study guides.</p>
+          <span class="card-tag">Research Kit</span>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="card-title">Community Contribs</h3>
+          <p class="card-desc">Collaborative submissions module ensuring peer review checks prior to standard research index publishing.</p>
+          <span class="card-tag">Open Source</span>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="preview-card">
+          <div class="card-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3 class="card-title">Research Materials</h3>
+          <p class="card-desc">Advanced methodology matrices, thesis outlines, citation builders, and reference list schemas for legal scholars.</p>
+          <span class="card-tag">Reference Guide</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5. DEVELOPMENT NOTICE (Government Circular Aesthetic) -->
+    <section class="notice-section" aria-labelledby="notice-title-id">
+      <!-- Watermark emblem in background -->
+      <svg class="notice-seal-watermark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <circle cx="12" cy="12" r="10" stroke-dasharray="4 4" />
+        <line x1="12" y1="2" x2="12" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+      </svg>
+      
+      <div class="notice-header">
+        <span class="notice-dept">Academic & Technology Commission</span>
+        <h2 class="notice-title" id="notice-title-id">Official Development Notice</h2>
+        <div class="notice-meta">
+          <span>Ref No: BLLM-NDH/2026/01</span>
+          <span>Date: 29 May 2026</span>
+        </div>
+      </div>
+
+      <div class="notice-body">
+        <p>
+          <strong>To All Members of the Academic and Legal Communities:</strong>
+        </p>
+        <p>
+          Notice is hereby given that the technological architecture and structural indexing of the <strong>BALLB Notes & LLM Notes Hub</strong> are presently undergoing developmental synchronization. Our central objective remains the delivery of verified, highly structured, and universally accessible academic materials for legal researchers, scholars, and professionals worldwide.
+        </p>
+        <p>
+          While the storage vaults and classification matrix undergo optimization, the core platform will remain closed to general public modification. We deeply appreciate the ongoing patience of our external partners during this crucial preparation phase.
+        </p>
+      </div>
+
+      <div class="notice-footer-seal">
+        <div class="seal-sign-box">
+          <div class="seal-sign-title">Authorized Digital Seal</div>
+          <div class="seal-sign-name">Academic Board Secretariat</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. EMAIL NOTIFICATION FORM -->
+    <section class="newsletter-section" id="notify-form-section" aria-labelledby="newsletter-title-id">
+      <h2 class="newsletter-title" id="newsletter-title-id">Request Launch Notification</h2>
+      <p class="newsletter-desc">Submit your institutional or academic email address below to receive digital dispatch notice when index vaults open.</p>
+      
+      <form class="newsletter-form" id="launch-form" novalidate>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input type="email" id="user-email" class="form-input" placeholder="Enter your academic email address" aria-label="Email address for launch notification" required>
+          <div class="validation-msg" id="email-error-msg">Please enter a valid academic/standard email address.</div>
+        </div>
+        <button type="submit" class="form-btn" id="submit-btn">
+          <span>Notify Me At Launch</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <!-- 7. TIMELINE SECTION -->
+    <section class="timeline-section" aria-labelledby="timeline-title-id">
+      <div class="section-header">
+        <h2 class="section-title" id="timeline-title-id">Roadmap & Phase Tracking</h2>
+        <p class="section-desc">Trace our architectural progress toward a sustainable research ecosystem.</p>
+      </div>
+
+      <div class="timeline-container">
+        <!-- Step 1 -->
+        <div class="timeline-item completed">
+          <div class="timeline-marker" aria-label="Completed Step">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 1 Complete</span>
+            <h3 class="timeline-item-title">Strategic Planning & Scope Definition</h3>
+            <p class="timeline-item-desc">Structured critical taxonomy for law syllabus mapping. Defined requirements with key academic stakeholders.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-item completed">
+          <div class="timeline-marker" aria-label="Completed Step">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 2 Complete</span>
+            <h3 class="timeline-item-title">Database & System Architecture</h3>
+            <p class="timeline-item-desc">Optimized index hierarchy to process comprehensive text search indexes, PDF documents, and academic source linkages.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-item completed">
+          <div class="timeline-marker" aria-label="Completed Step">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 3 Complete</span>
+            <h3 class="timeline-item-title">Institutional Interface Design</h3>
+            <p class="timeline-item-desc">Rendered an interface adhering strictly to traditional academic structures and highly legible layouts.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-item in-progress">
+          <div class="timeline-marker" aria-label="In Progress Step">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 4 In Progress</span>
+            <h3 class="timeline-item-title">Code Deployment & Refinement</h3>
+            <p class="timeline-item-desc">Writing high-efficiency system APIs, search index protocols, and optimizing browser client compatibility.</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="timeline-item upcoming">
+          <div class="timeline-marker" aria-label="Upcoming Step"></div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 5 Upcoming</span>
+            <h3 class="timeline-item-title">Content Integration & Metadata Mapping</h3>
+            <p class="timeline-item-desc">Populating database matrices with structured course notes, legal commentaries, and academic index libraries.</p>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="timeline-item upcoming">
+          <div class="timeline-marker" aria-label="Upcoming Step"></div>
+          <div class="timeline-content">
+            <span class="timeline-badge">Phase 6 Upcoming</span>
+            <h3 class="timeline-item-title">Public Platform Launch</h3>
+            <p class="timeline-item-desc">System activation, index opening, and global onboarding of academic legal departments.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 8. FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <div class="footer-logo">
+          <!-- Scale of Justice & Book combined SVG icon (Footer variant) -->
+          <svg class="logo-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="3" x2="12" y2="17" />
+            <line x1="8" y1="17" x2="16" y2="17" />
+            <line x1="5" y1="6" x2="19" y2="6" />
+            <path d="M5 6l-2 5h4l-2 -5" />
+            <path d="M3 11a2 2 0 0 0 4 0" />
+            <path d="M19 6l-2 5h4l-2 -5" />
+            <path d="M17 11a2 2 0 0 0 4 0" />
+            <path d="M4 19h16" stroke-width="2" />
+          </svg>
+          <span class="footer-logo-title">BALLB & LLM Hub</span>
+        </div>
+        <p class="footer-desc">
+          An authoritative digital database dedicated to organizing legal jurisprudence curriculums into high-fidelity digests and unified study frameworks.
+        </p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Primary Indexes</h4>
+        <ul class="footer-links">
+          <li class="footer-link-item">BALLB Course Syllabus</li>
+          <li class="footer-link-item">LLM Specialized Jurisprudence</li>
+          <li class="footer-link-item">Core Case Index Files</li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Platform Assets</h4>
+        <ul class="footer-links">
+          <li class="footer-link-item">Academic Reference Catalogs</li>
+          <li class="footer-link-item">Legal Study Templates</li>
+          <li class="footer-link-item">Knowledge Repositories</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 BALLB Notes & LLM Notes Hub. All Rights Reserved. Institutional Academic Repository Initiative.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- JAVASCRIPT: MICRO-INTERACTIONS & UTILITIES -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // EMAIL REGISTRATION FORM VALIDATION & INTERACTION
+      const launchForm = document.getElementById('launch-form');
+      const userEmailInput = document.getElementById('user-email');
+      const emailErrorMsg = document.getElementById('email-error-msg');
+      const submitBtn = document.getElementById('submit-btn');
+
+      // Simple email verification regex
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      launchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailValue = userEmailInput.value.trim();
+
+        if (!emailValue) {
+          showValidationError("Email address is required to proceed.");
+          return;
+        }
+
+        if (!emailRegex.test(emailValue)) {
+          showValidationError("Please enter a valid format (e.g., scholar@university.edu).");
+          return;
+        }
+
+        // Success State
+        clearValidationError();
+        triggerSuccessState(emailValue);
+      });
+
+      userEmailInput.addEventListener('input', () => {
+        if (emailErrorMsg.style.display === 'block') {
+          const emailValue = userEmailInput.value.trim();
+          if (emailRegex.test(emailValue)) {
+            clearValidationError();
+          }
+        }
+      });
+
+      function showValidationError(message) {
+        emailErrorMsg.textContent = message;
+        emailErrorMsg.style.display = 'block';
+        userEmailInput.style.borderColor = '#FF8A8A';
+        userEmailInput.focus();
+      }
+
+      function clearValidationError() {
+        emailErrorMsg.style.display = 'none';
+        userEmailInput.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      }
+
+      function triggerSuccessState(email) {
+        // Mock processing state
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.8';
+        submitBtn.innerHTML = `
+          <svg class="spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+          Processing...
+        `;
+
+        // CSS animation style injection for spinner
+        if (!document.getElementById('spin-style')) {
+          const style = document.createElement('style');
+          style.id = 'spin-style';
+          style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+          document.head.appendChild(style);
+        }
+
+        setTimeout(() => {
+          // Toast trigger
+          showToast(
+            "Access Authorized", 
+            `Email address successfully registered. We will notify ${email} at system dispatch.`
+          );
+          
+          // Form resets
+          userEmailInput.value = '';
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+          submitBtn.innerHTML = `
+            <span>Notify Me At Launch</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          `;
+        }, 1200);
+      }
+
+      // CUSTOM TOAST NOTIFICATION UTILITY
+      const toastContainer = document.getElementById('toast-container');
+
+      function showToast(title, message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+          <svg class="toast-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div class="toast-content">
+            <span class="toast-title">${title}</span>
+            <span class="toast-msg">${message}</span>
+          </div>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Force browser layout calculation for animation to run smoothly
+        void toast.offsetWidth;
+
+        toast.classList.add('show');
+
+        // Automatic dismissal after 5.5 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+          // Wait for CSS slide down to finish before removing node from DOM
+          setTimeout(() => {
+            toast.remove();
+          }, 400);
+        }, 5500);
+      }
+
+      // MICRO-INTERACTION: BUTTON RIPPLE EFFECT
+      const buttons = document.querySelectorAll('.form-btn');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          
+          this.appendChild(ripple);
+          
+          ripple.addEventListener('animationend', () => {
+            ripple.remove();
+          });
+        });
+      });
+
+      // ACCESSIBILITY & DUMMY NAV SYSTEM ALERTS
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          showToast(
+            "Navigation Advisory", 
+            `The directory for "${item.childNodes[0].textContent.trim()}" is currently locked during database population.`
+          );
+        });
+      });
+
+      // SCROLL REVEAL OPTIMIZATION FOR CARDS
+      const cards = document.querySelectorAll('.preview-card, .timeline-item');
+      
+      const revealOnScroll = () => {
+        const triggerBottom = window.innerHeight * 0.95;
+        
+        cards.forEach(card => {
+          const cardTop = card.getBoundingClientRect().top;
+          
+          if (cardTop < triggerBottom) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }
+        });
+      };
+
+      // Set initial styles for transition states
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(15px)';
+        card.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+      });
+
+      window.addEventListener('scroll', revealOnScroll);
+      revealOnScroll(); // Trigger instantly on load
+    });
+  </script>
+
+</body>
+</html>
+
